@@ -28,4 +28,12 @@ public class Product
         BusinessValidationException.When(quantity < 0, "Quantity cannot be negative");
         Stock += quantity;
     }
+
+    public void WithdrawStock(int quantity)
+    {
+        BusinessValidationException.When(quantity < 0, "Quantity cannot be negative");
+        BusinessValidationException.When(Stock == 0, "No stock available");
+        BusinessValidationException.When(quantity > Stock, "There is not enough stock");
+        Stock -= quantity;
+    }
 }

@@ -34,4 +34,22 @@ public class ProductTests
         
         Assert.Equal("Quantity cannot be negative", exception.Message);
     }
+
+    [Fact]
+    public void ShouldNotWithdrawZeroStock()
+    {
+        var product = new Product("TShirt", 0, 12.5m);
+        var exception = Assert.Throws<BusinessValidationException>(() => product.WithdrawStock(5));
+        
+        Assert.Equal("No stock available", exception.Message);
+    }
+
+    [Fact]
+    public void ShouldNotWithdrawNotEnoughStock()
+    {
+        var product = new Product("TShirt", 5, 12.5m);
+        var exception = Assert.Throws<BusinessValidationException>(() => product.WithdrawStock(15));
+                
+        Assert.Equal("There is not enough stock", exception.Message);
+    }
 }
