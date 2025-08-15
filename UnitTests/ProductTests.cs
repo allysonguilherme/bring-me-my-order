@@ -25,4 +25,13 @@ public class ProductTests
         var exception = Assert.Throws<BusinessValidationException>(() => new Product("TShirt", 8, -12.5m));
         Assert.Equal("Product price cannot be negative", exception.Message);
     }
+
+    [Fact]
+    public void ShouldNotAddNegativeStock()
+    {
+        var product = new Product("TShirt", 8, 12.5m);
+        var exception = Assert.Throws<BusinessValidationException>(() => product.AddStock(-1));
+        
+        Assert.Equal("Quantity cannot be negative", exception.Message);
+    }
 }

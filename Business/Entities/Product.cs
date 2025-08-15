@@ -22,4 +22,10 @@ public class Product
        Stock = stock;
        Price = price;
     }
+
+    public void AddStock(int quantity)
+    {
+        BusinessValidationException.When(quantity < 0, "Quantity cannot be negative");
+        Stock += quantity;
+    }
 }
