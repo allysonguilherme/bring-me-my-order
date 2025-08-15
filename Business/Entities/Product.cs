@@ -4,11 +4,14 @@ namespace Business.Entities;
 
 public class Product
 {
-    public int Id { get; private set; }
-    public string Name { get; private set; }
-    public string? Description { get; private set; }
-    public int Stock { get; private set; }
-    public decimal Price { get; private set; }
+    public virtual int Id { get; protected set; }
+    public virtual string Name { get; protected set; }
+    public virtual string? Description { get; protected set; }
+    
+    public virtual int Stock { get; protected set; }
+    public virtual decimal Price { get;  protected set; }
+    
+    protected Product() { }
 
     public Product(string name, int stock, decimal price, string? description = null)
     {
@@ -23,13 +26,13 @@ public class Product
        Price = price;
     }
 
-    public void AddStock(int quantity)
+    public virtual void AddStock(int quantity)
     {
         BusinessValidationException.When(quantity < 0, "Quantity cannot be negative");
         Stock += quantity;
     }
 
-    public void WithdrawStock(int quantity)
+    public virtual void WithdrawStock(int quantity)
     {
         BusinessValidationException.When(quantity < 0, "Quantity cannot be negative");
         BusinessValidationException.When(Stock == 0, "No stock available");
