@@ -12,6 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\OrderApplication\OrderApplication.csproj" />
       <ProjectReference Include="..\OrderInfraIOC\OrderInfraIOC.csproj" />
     </ItemGroup>
 
