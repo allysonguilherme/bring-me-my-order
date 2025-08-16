@@ -10,4 +10,8 @@
       <ProjectReference Include="..\OrderBusiness\OrderBusiness.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Flunt" Version="2.0.5" />
+    </ItemGroup>
+
 </Project>
