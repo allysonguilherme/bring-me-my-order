@@ -22,4 +22,9 @@ public class ProductOrder
         Price = price;
         Quantity = quantity;
     }
+
+    public decimal GetTotalPrice()
+    {
+        return Price * Quantity;
+    }
 }
