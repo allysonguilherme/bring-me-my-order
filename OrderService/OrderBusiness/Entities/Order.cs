@@ -2,9 +2,9 @@ namespace OrderBusiness.Entities;
 
 public class Order
 {
-    public int Id { get; set; }
-    public List<OrderProduct> OrderProducts { get; set; }
-    public decimal TotalPrice { get; set; }
+    public int Id { get; init; }
+    public List<OrderProduct> OrderProducts { get; init; }
+    public decimal TotalPrice { get; init; }
     
     //parameterless constructor used by EF Core
     private Order() { }
