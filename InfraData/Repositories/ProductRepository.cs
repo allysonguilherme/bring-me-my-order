@@ -20,4 +20,52 @@ public class ProductRepository (ISession session) : IProductRepository
             throw;
         }
     }
+
+    public async Task<object?> Create(Product product)
+    {
+        try
+        {
+            using var transaction = session.BeginTransaction();
+            var generatedId = await session.SaveAsync(product);
+            await transaction.CommitAsync();
+            
+            return generatedId;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+    public async Task<Product?> GetById(int id)
+    {
+        try
+        {
+            return await session.GetAsync<Product>(id);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+    public async Task<Product> Update(Product product)
+    {
+        try
+        {
+            var transaction = session.BeginTransaction();
+            var updatedProduct = await session.MergeAsync(product);
+            
+            await transaction.CommitAsync();
+            
+            return updatedProduct;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
 }
