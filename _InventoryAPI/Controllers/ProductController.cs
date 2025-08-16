@@ -50,4 +50,47 @@ public class ProductController(IProductFacade productFacade) : ControllerBase
          
         return createProductResult != null ? Ok("Produto criado com sucesso!") : NoContent();
     }
+
+    [HttpPut("{id}/AddStock", Name = "AddStock")]
+    public async Task<IActionResult> AddStock(int id, [FromBody] UpdateProductStockDto updateProductStockDto)
+    {
+        
+        updateProductStockDto.Validate();
+        if (!updateProductStockDto.IsValid)
+        {
+            return BadRequest(updateProductStockDto.Notifications);
+        }
+        
+        var product = await productFacade.GetProduct(id);
+
+        if (product is null)
+        {
+            return NotFound("Product not found");
+        }
+        
+        var (success, message) = await productFacade.AddProductStock(product, updateProductStockDto.Quantity);
+        
+        return success ? Ok(message) : BadRequest(message);
+    }
+
+    [HttpPut("{id}/WithdrawStock", Name = "WithdrawStock")]
+    public async Task<IActionResult> WithdrawStock(int id, [FromBody] UpdateProductStockDto updateProductStockDto)
+    {
+        updateProductStockDto.Validate();
+        if (!updateProductStockDto.IsValid)
+        {
+            return BadRequest(updateProductStockDto.Notifications);
+        }
+        
+        var product = await productFacade.GetProduct(id);
+
+        if (product is null)
+        {
+            return NotFound("Product not found");
+        }
+        
+        var (success, message) = await productFacade.WithdrawProductStock(product, updateProductStockDto.Quantity);
+        
+        return success ? Ok(message) : BadRequest(message);
+    }
 }
