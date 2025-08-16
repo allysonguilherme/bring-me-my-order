@@ -4,17 +4,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "InventoryService", "Invento
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OrderService", "OrderService", "{1BFBEE48-F59C-4AD9-82E1-9281C2E17590}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business", "InventoryService\Business\Business.csproj", "{5C4E1FDB-E930-4A4D-977D-B47DA7C6AE9A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventoryBusiness", "InventoryService\InventoryBusiness\InventoryBusiness.csproj", "{5C4E1FDB-E930-4A4D-977D-B47DA7C6AE9A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InfraData", "InventoryService\InfraData\InfraData.csproj", "{8659E2CD-2389-4EE2-BC77-4C8C08D03253}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventoryInfraData", "InventoryService\InventoryInfraData\InventoryInfraData.csproj", "{8659E2CD-2389-4EE2-BC77-4C8C08D03253}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InfraIOC", "InventoryService\InfraIOC\InfraIOC.csproj", "{AB2C4DB5-3F21-4BFA-8E9B-BBA20F046CDC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventoryInfraIOC", "InventoryService\InventoryInfraIOC\InventoryInfraIOC.csproj", "{AB2C4DB5-3F21-4BFA-8E9B-BBA20F046CDC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_InventoryAPI", "InventoryService\_InventoryAPI\_InventoryAPI.csproj", "{74D25DA0-FC8B-44E0-B261-D9688377FB61}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "InventoryService\UnitTests\UnitTests.csproj", "{853838C0-F6A2-4AD4-BA8A-26BFA84E3DAF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventoryUnitTests", "InventoryService\InventoryUnitTests\InventoryUnitTests.csproj", "{853838C0-F6A2-4AD4-BA8A-26BFA84E3DAF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "InventoryService\Application\Application.csproj", "{5BAE7F35-6F64-49B3-91D6-F385B5DDEED0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventoryApplication", "InventoryService\InventoryApplication\InventoryApplication.csproj", "{5BAE7F35-6F64-49B3-91D6-F385B5DDEED0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderBusiness", "OrderService\OrderBusiness\OrderBusiness.csproj", "{3E6EA63C-95E4-46AE-BDD0-84F82EB9D2DA}"
 EndProject

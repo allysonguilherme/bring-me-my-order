@@ -1,6 +1,6 @@
-using Application.DTOs;
-using Application.Services.Interfaces;
-using Business.Entities;
+using InventoryApplication.DTOs;
+using InventoryApplication.Services.Interfaces;
+using InventoryBusiness.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace _InventoryAPI.Controllers;

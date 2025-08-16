@@ -1,4 +1,4 @@
-using InfraIOC;
+using InventoryInfraIOC;
 
 var builder = WebApplication.CreateBuilder(args);
 
