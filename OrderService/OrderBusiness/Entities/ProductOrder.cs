@@ -11,6 +11,9 @@ public class ProductOrder
     
     public int OrderId { get; set; } 
     public Order Order { get; set; }
+    
+    //parameterless constructor used by EF Core
+    private ProductOrder() { }
 
     public ProductOrder(int productId, string name, decimal price, int quantity, string? description = null)
     {

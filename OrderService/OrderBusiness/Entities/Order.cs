@@ -5,6 +5,9 @@ public class Order
     public int Id { get; set; }
     public List<ProductOrder> OrderProducts { get; set; }
     public decimal TotalPrice { get; set; }
+    
+    //parameterless constructor used by EF Core
+    private Order() { }
 
     public Order(List<ProductOrder> orderProducts)
     {
