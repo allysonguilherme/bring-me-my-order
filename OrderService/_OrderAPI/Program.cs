@@ -1,3 +1,4 @@
+using OrderApplication.DTOs;
 using OrderApplication.Services.Interfaces;
 using OrderInfraIOC;
 
@@ -27,6 +28,29 @@ app.MapGet("/orders", async (IOrderFacade orderFacade) =>
         return orders.Any() ? Results.Ok(orders) : Results.NoContent();
     })
     .WithName("GetOrders")
+    .WithOpenApi();
+
+app.MapGet("/orders/{id}", async (IOrderFacade orderFacade, int id) =>
+    {
+        var order = await orderFacade.GetOrder(id);
+        
+        return order != null ? Results.Ok(order) : Results.NotFound();
+    })
+    .WithName("GetOrder")
+    .WithOpenApi();
+
+app.MapPost("/orders", async (IOrderFacade orderFacade, CreateOrderDto order) =>
+    {
+        order.Validate();
+        if (order.IsValid is false)
+        {
+            return Results.BadRequest(order.Notifications);
+        }
+        
+        var created = await orderFacade.CreateOrder(order);
+        return created ? Results.Created() : Results.UnprocessableEntity();
+    })
+    .WithName("CreateOrder")
     .WithOpenApi();
 
 app.Run();

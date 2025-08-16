@@ -26,4 +26,10 @@ public class OrderFacade (IOrderRepository repository) :  IOrderFacade
         var order = await repository.GetAllAsync();
         return order.Select(o => o.ToDto()).ToList();
     }
+
+    public async Task<OrderDto?> GetOrder(int id)
+    {
+        var order = await repository.GetByIdAsync(id);
+        return order?.ToDto();
+    }
 }

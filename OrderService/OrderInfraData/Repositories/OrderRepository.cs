@@ -21,9 +21,19 @@ public class OrderRepository (ApplicationDbContext dbContext)  : IOrderRepositor
         }
     }
 
-    public async Task<Order> GetByIdAsync(int id)
+    public async Task<Order?> GetByIdAsync(int id)
     {
-        throw new NotImplementedException();
+        try
+        {
+            return await dbContext.Orders
+                .Include(o => o.OrderProducts)
+                .FirstOrDefaultAsync(o => o.Id == id);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     public async Task<int> CreateAsync(Order order)
