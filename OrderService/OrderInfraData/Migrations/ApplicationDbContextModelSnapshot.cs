@@ -38,7 +38,7 @@ namespace OrderInfraData.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("OrderBusiness.Entities.ProductOrder", b =>
+            modelBuilder.Entity("OrderBusiness.Entities.OrderProduct", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -74,7 +74,7 @@ namespace OrderInfraData.Migrations
                     b.ToTable("OrderProducts");
                 });
 
-            modelBuilder.Entity("OrderBusiness.Entities.ProductOrder", b =>
+            modelBuilder.Entity("OrderBusiness.Entities.OrderProduct", b =>
                 {
                     b.HasOne("OrderBusiness.Entities.Order", "Order")
                         .WithMany("OrderProducts")

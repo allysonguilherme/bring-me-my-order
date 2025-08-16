@@ -4,9 +4,9 @@ using OrderBusiness.Entities;
 
 namespace OrderInfraData.Configs;
 
-public class ProductOrderConfig : IEntityTypeConfiguration<ProductOrder>
+public class ProductOrderConfig : IEntityTypeConfiguration<OrderProduct>
 {
-    public void Configure(EntityTypeBuilder<ProductOrder> builder)
+    public void Configure(EntityTypeBuilder<OrderProduct> builder)
     {
         builder.HasKey(po => po.Id);
 

@@ -9,7 +9,7 @@ public class OrderTests
     {
         var exception = Assert.Throws<ArgumentException>((() =>
         {
-            var order = new Order(new List<ProductOrder>());
+            var order = new Order(new List<OrderProduct>());
         }));
         
         Assert.That(exception.Message, Is.EqualTo("Cannot create order without any products"));
@@ -18,10 +18,10 @@ public class OrderTests
     [Test]
     public void OrderShouldHaveCorrectTotalPrice()
     {
-        var products = new List<ProductOrder>()
+        var products = new List<OrderProduct>()
         {
-            new ProductOrder(5, "Honey Pot", 5, 2),
-            new ProductOrder(1, "IPhone", 4000, 1)
+            new OrderProduct(5, "Honey Pot", 5, 2),
+            new OrderProduct(1, "IPhone", 4000, 1)
         };
         
         var order = new Order(products);
