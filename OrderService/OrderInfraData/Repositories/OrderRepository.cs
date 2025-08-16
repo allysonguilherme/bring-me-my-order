@@ -25,6 +25,13 @@ public class OrderRepository (ApplicationDbContext dbContext)  : IOrderRepositor
     {
         throw new NotImplementedException();
     }
+
+    public async Task<int> CreateAsync(Order order)
+    {
+        await dbContext.Orders.AddAsync(order);
+        return await dbContext.SaveChangesAsync();
+    }
+
     public async Task<int> DeleteAsync(Order order)
     {
         throw new NotImplementedException();
