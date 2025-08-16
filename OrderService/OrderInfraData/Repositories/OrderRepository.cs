@@ -6,6 +6,21 @@ namespace OrderInfraData.Repositories;
 
 public class OrderRepository (ApplicationDbContext dbContext)  : IOrderRepository
 {
+    public async Task<List<Order>> GetAllAsync()
+    {
+        try
+        {
+            return await dbContext.Orders
+                .Include(o => o.OrderProducts)
+                .ToListAsync();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
     public async Task<Order> GetByIdAsync(int id)
     {
         throw new NotImplementedException();
