@@ -14,7 +14,7 @@ public class DependencyInjection
     
         var _sessionFactory = Fluently.Configure()
             .Database(PostgreSQLConfiguration.Standard.ConnectionString(connectionString))
-            .Mappings(m => m.FluentMappings.AddFromAssembly(typeof(ProductMap).Assembly))
+            .Mappings(m => m.FluentMappings.AddFromAssemblyOf<ProductMap>())
             .BuildSessionFactory(); 
         
         services.AddScoped(factory => _sessionFactory.OpenSession());
