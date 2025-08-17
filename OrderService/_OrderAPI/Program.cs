@@ -46,11 +46,25 @@ app.MapPost("/orders", async (IOrderFacade orderFacade, CreateOrderDto order) =>
         {
             return Results.BadRequest(order.Notifications);
         }
-        
+
         var created = await orderFacade.CreateOrder(order);
         return created ? Results.Created() : Results.UnprocessableEntity();
     })
     .WithName("CreateOrder")
+    .WithOpenApi();
+
+app.MapDelete("orders/{id}", async (IOrderFacade orderFacade, int id) =>
+    {
+        var deleted = await orderFacade.CancelOrder(id);
+        
+        if (deleted is null)
+        {
+            return Results.NotFound();
+        }
+
+        return (bool)deleted ? Results.Ok() : Results.UnprocessableEntity();
+    })
+    .WithName("CancelOrder")
     .WithOpenApi();
 
 app.Run();
