@@ -12,7 +12,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventoryInfraIOC", "Invent
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_InventoryAPI", "InventoryService\_InventoryAPI\_InventoryAPI.csproj", "{74D25DA0-FC8B-44E0-B261-D9688377FB61}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventoryUnitTests", "InventoryService\InventoryUnitTests\InventoryUnitTests.csproj", "{853838C0-F6A2-4AD4-BA8A-26BFA84E3DAF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventoryTests", "InventoryService\InventoryTests\InventoryTests.csproj", "{853838C0-F6A2-4AD4-BA8A-26BFA84E3DAF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventoryApplication", "InventoryService\InventoryApplication\InventoryApplication.csproj", "{5BAE7F35-6F64-49B3-91D6-F385B5DDEED0}"
 EndProject
