@@ -1,6 +1,7 @@
 using OrderBusiness.Entities;
 using OrderBusiness.Publishers;
 using OrderInfraData.Message.Interfaces;
+using OrderInfraData.Message.Mappings;
 
 namespace OrderInfraData.Message;
 
@@ -12,7 +13,7 @@ public class OrderPublisher (IMessagePublisher messagePublisher) : IOrderPublish
     {
         try
         {
-            await messagePublisher.PublishMessage(order, OrderCreatedQueue);
+            await messagePublisher.PublishMessage(order.ToCreatedEvent(), OrderCreatedQueue);
         }
         catch (Exception e)
         {
