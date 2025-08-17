@@ -18,5 +18,11 @@ public class DependencyInjection
             .BuildSessionFactory(); 
         
         services.AddScoped(factory => _sessionFactory.OpenSession());
+
+        services.AddStackExchangeRedisCache(options =>
+        {
+            options.Configuration = configuration.GetConnectionString("Redis");
+            options.InstanceName = "InventoryService";
+        });
     }
 }

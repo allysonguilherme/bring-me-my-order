@@ -2,9 +2,9 @@ using InventoryApplication.Services;
 using InventoryApplication.Services.Interfaces;
 using InventoryBusiness.Repositories;
 using InventoryInfraData;
+using InventoryInfraData.Data.Repositories;
 using InventoryInfraData.Message;
 using InventoryInfraData.Message.Interfaces;
-using InventoryInfraData.Repositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
