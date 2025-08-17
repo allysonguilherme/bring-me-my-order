@@ -1,5 +1,6 @@
 using System.Text;
 using System.Text.Json;
+using InventoryInfraData.Message.Interfaces;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
@@ -9,7 +10,7 @@ public class MessageConsumer: IMessageConsumer
 {
     private const string Host = "localhost";
     
-    public async Task ConsumeMessage<T>(string queueName, Action<T> action)
+    public async Task ConsumeMessage<T>(string queueName, Func<T, Task> function, CancellationToken cancellationToken)
     {
         try
         {
@@ -27,17 +28,18 @@ public class MessageConsumer: IMessageConsumer
             Console.WriteLine(" [*] Waiting for messages.");
 
             var consumer = new AsyncEventingBasicConsumer(channel);
-            consumer.ReceivedAsync += (model, ea) =>
+            consumer.ReceivedAsync += async (model, ea) =>
             {
                 var body = ea.Body.ToArray();
                 var message = Encoding.UTF8.GetString(body);
                 var obj = JsonSerializer.Deserialize<T>(body);
                 
-                action(obj);
-                return Task.CompletedTask;
+                await function(obj);
             };
             
             await channel.BasicConsumeAsync(queueName, true, consumer);
+            
+            await Task.Delay(Timeout.Infinite, cancellationToken);
         }
         catch (Exception e)
         {

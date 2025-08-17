@@ -1,6 +1,5 @@
 using System.Text;
 using System.Text.Json;
-using FluentNHibernate.Conventions.AcceptanceCriteria;
 using InventoryInfraData.Message;
 using RabbitMQ.Client;
 using Xunit.Abstractions;
@@ -25,14 +24,14 @@ public class MessageConsumerIntegrationTests
         var consumer = new MessageConsumer();
         var receivedEvent = new ManualResetEvent(false);
         TestMessage? receivedMessage = null;
-        
-        Action<TestMessage> action = (TestMessage message) =>
-        {
+
+        Task UpdateMessage(TestMessage message)
+        { 
             receivedMessage = message;
             receivedEvent.Set();
-        };
-        
-        _ = consumer.ConsumeMessage<TestMessage>(QueueName, action);
+            return Task.CompletedTask;
+        }
+        _ = consumer.ConsumeMessage<TestMessage>(QueueName, UpdateMessage, CancellationToken.None);
         
         var factory = new ConnectionFactory() { HostName = Host };
         await using var connection = await factory.CreateConnectionAsync();
@@ -51,6 +50,8 @@ public class MessageConsumerIntegrationTests
         Assert.Equal(1, receivedMessage!.Id);
         Assert.Equal("Item A", receivedMessage.Name);
     }
+
+    
 
     private class TestMessage
     {

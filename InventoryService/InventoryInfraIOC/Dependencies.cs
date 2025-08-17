@@ -2,6 +2,8 @@ using InventoryApplication.Services;
 using InventoryApplication.Services.Interfaces;
 using InventoryBusiness.Repositories;
 using InventoryInfraData;
+using InventoryInfraData.Message;
+using InventoryInfraData.Message.Interfaces;
 using InventoryInfraData.Repositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,5 +18,6 @@ public static class Dependencies
 
         services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped<IProductFacade, ProductFacade>();
+        services.AddScoped<IMessageConsumer, MessageConsumer>();
     }
 }
