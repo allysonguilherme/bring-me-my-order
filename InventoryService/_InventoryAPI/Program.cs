@@ -1,6 +1,7 @@
 using InventoryInfraData.Message;
 using InventoryInfraData.Message.Consumers;
 using InventoryInfraIOC;
+using Shared.Contracts;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,7 @@ builder.Services.AddSwaggerGen();
 
 Dependencies.ConfigureServices(builder.Configuration, builder.Services);
 builder.Services.AddHostedService<OrderCreatedConsumer>();
+builder.Services.AddHostedService<OrderCancelledConsumer>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

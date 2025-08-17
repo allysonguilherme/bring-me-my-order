@@ -15,4 +15,15 @@ public static class DomainEventMapping
         
         return  new OrderCreatedEvent(){OrderNumber = order.Id, Products = productsDto};
     }
+
+    public static OrderCancelledEvent ToCancelledEvent(this Order order)
+    {
+        var productsDto = order.OrderProducts.Select(x => new OrderProductDto()
+        {
+            ProductId = x.ProductId,
+            Quantity = x.Quantity
+        }).ToList();
+        
+        return  new OrderCancelledEvent(){OrderNumber = order.Id, Products = productsDto}; 
+    }
 }

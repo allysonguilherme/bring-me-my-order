@@ -48,7 +48,13 @@ public class OrderFacade (IOrderRepository repository, IOrderPublisher publisher
             var order = await repository.GetByIdAsync(id);
             if(order == null) return null;
             
-            return await repository.DeleteAsync(order) > 0;
+            var deleted = await repository.DeleteAsync(order) > 0;
+            if (deleted)
+            {
+                publisher.OrderCancelledPublish(order);
+            }
+            
+            return deleted;
         }
         catch (Exception e)
         {
