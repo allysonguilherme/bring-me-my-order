@@ -1,6 +1,5 @@
 using System.Text;
 using System.Text.Json;
-using Newtonsoft.Json;
 using OrderInfraData.Message;
 using RabbitMQ.Client;
 using JsonSerializer = System.Text.Json.JsonSerializer;
