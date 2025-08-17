@@ -1,3 +1,5 @@
+using InventoryInfraData.Message;
+using InventoryInfraData.Message.Consumers;
 using InventoryInfraIOC;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,8 +12,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 Dependencies.ConfigureServices(builder.Configuration, builder.Services);
-
-
+builder.Services.AddHostedService<OrderCreatedConsumer>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
