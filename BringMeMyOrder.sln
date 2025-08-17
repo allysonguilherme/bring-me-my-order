@@ -24,7 +24,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderInfraData", "OrderServ
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderInfraIOC", "OrderService\OrderInfraIOC\OrderInfraIOC.csproj", "{C7060469-7529-43AE-841E-ECAE01DFA48D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderUnitTests", "OrderService\OrderUnitTests\OrderUnitTests.csproj", "{A5E0ADDB-6A42-4FF2-81DB-AE976FC39368}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderTests", "OrderService\OrderTests\OrderTests.csproj", "{A5E0ADDB-6A42-4FF2-81DB-AE976FC39368}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_OrderAPI", "OrderService\_OrderAPI\_OrderAPI.csproj", "{4D981892-D97C-4020-984D-5ADBB1AA697C}"
 EndProject
