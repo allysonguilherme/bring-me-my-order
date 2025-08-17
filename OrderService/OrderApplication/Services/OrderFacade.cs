@@ -1,19 +1,26 @@
 using OrderApplication.DTOs;
 using OrderApplication.Mappings;
 using OrderApplication.Services.Interfaces;
-using OrderBusiness.Entities;
+using OrderBusiness.Publishers;
 using OrderBusiness.Repositories;
 
 namespace OrderApplication.Services;
 
-public class OrderFacade (IOrderRepository repository) :  IOrderFacade
+public class OrderFacade (IOrderRepository repository, IOrderPublisher publisher) :  IOrderFacade
 {
     public async Task<bool> CreateOrder(CreateOrderDto createOrderDto)
     {
         try
         {
             var newOrder = createOrderDto.ToBusinessEntity();
-            return await repository.CreateAsync(newOrder) > 0;
+            var orderCreated = await repository.CreateAsync(newOrder) > 0;
+
+            if (orderCreated)
+            {
+                publisher.OrderCreatedPublish(newOrder);
+            }
+            
+            return orderCreated;
         }
         catch (Exception e)
         {
