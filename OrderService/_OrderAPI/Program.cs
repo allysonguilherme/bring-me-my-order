@@ -1,3 +1,4 @@
+using Asp.Versioning;
 using OrderApplication.DTOs;
 using OrderApplication.Services.Interfaces;
 using OrderInfraIOC;
@@ -10,8 +11,16 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 Dependencies.ConfigureServices(builder.Configuration, builder.Services);
+builder.Services.AddApiVersioning()
+    .AddApiExplorer(options =>
+    {
+        options.GroupNameFormat = "'v'VVV";
+        options.SubstituteApiVersionInUrl = true;
+    });
 
 var app = builder.Build();
+var order = app.NewVersionedApi();
+var v1 = order.MapGroup("/api/v{version:apiVersion}/order").HasApiVersion(1.0);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -22,7 +31,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapGet("/orders", async (IOrderFacade orderFacade) =>
+v1.MapGet("/", async (IOrderFacade orderFacade) =>
     {
         var orders = await orderFacade.GetOrders();
         return orders.Any() ? Results.Ok(orders) : Results.NoContent();
@@ -30,7 +39,7 @@ app.MapGet("/orders", async (IOrderFacade orderFacade) =>
     .WithName("GetOrders")
     .WithOpenApi();
 
-app.MapGet("/orders/{id}", async (IOrderFacade orderFacade, int id) =>
+v1.MapGet("/{id}", async (IOrderFacade orderFacade, int id) =>
     {
         var order = await orderFacade.GetOrder(id);
         
@@ -39,7 +48,7 @@ app.MapGet("/orders/{id}", async (IOrderFacade orderFacade, int id) =>
     .WithName("GetOrder")
     .WithOpenApi();
 
-app.MapPost("/orders", async (IOrderFacade orderFacade, CreateOrderDto order) =>
+v1.MapPost("/", async (IOrderFacade orderFacade, CreateOrderDto order) =>
     {
         order.Validate();
         if (order.IsValid is false)
@@ -53,7 +62,7 @@ app.MapPost("/orders", async (IOrderFacade orderFacade, CreateOrderDto order) =>
     .WithName("CreateOrder")
     .WithOpenApi();
 
-app.MapDelete("orders/{id}", async (IOrderFacade orderFacade, int id) =>
+v1.MapDelete("/{id}", async (IOrderFacade orderFacade, int id) =>
     {
         var deleted = await orderFacade.CancelOrder(id);
         

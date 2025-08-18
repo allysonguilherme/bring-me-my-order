@@ -1,3 +1,4 @@
+using Asp.Versioning;
 using InventoryApplication.DTOs;
 using InventoryApplication.Services.Interfaces;
 using InventoryBusiness.Entities;
@@ -6,14 +7,15 @@ using Microsoft.AspNetCore.Mvc;
 namespace _InventoryAPI.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[ApiVersion(1.0)]
+[Route("api/v{version:apiVersion}/[controller]")]
 public class ProductController(IProductFacade productFacade) : ControllerBase
 {
     [HttpGet(Name = "GetAll")]
     public async Task<IActionResult> GetAll()
     {
         var products = await productFacade.GetAllProducts();
-        if (products.Any())
+        if (products.Count != 0)
         {
             return Ok(products);
         }

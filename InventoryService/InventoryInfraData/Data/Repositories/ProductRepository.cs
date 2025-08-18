@@ -15,11 +15,10 @@ public class ProductRepository (ISession session, IDistributedCache cache) : IPr
     }
     private const string ProductListCacheKey = "ProductList";
     
-    public async Task<List<Product>> GetAll()
+    public async Task<List<Product>?> GetAll()
     {
         try
         {
-                     
              var cachedProducts = await cache.GetStringAsync(ProductListCacheKey);
              if (cachedProducts != null)
              {
