@@ -1,0 +1,95 @@
+version: '3.9'
+services:
+  inventory_db:
+    image: postgres:17
+    container_name: inventory_db
+    environment:
+      POSTGRES_USER: inventory_user
+      POSTGRES_PASSWORD: inventory_pass
+      POSTGRES_DB: inventory_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - inventory_data:/var/lib/postgresql/data
+      - ./InventoryService/init_db.sql:/docker-entrypoint-initdb.d/init_db.sql
+    networks:
+      - backend
+  
+  order_db:
+    image: postgres:17
+    container_name: order_db
+    environment:
+      POSTGRES_USER: order_user
+      POSTGRES_PASSWORD: order_pass
+      POSTGRES_DB: order_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - order_data:/var/lib/postgresql/data 
+    networks:
+      - backend
+   
+      
+  redis:
+    image: redis:8
+    container_name: redis_cache
+    ports:
+      - "6379:6379"
+    networks:
+      - backend
+    
+  rabbitmq:
+    image: rabbitmq:4-management
+    container_name: rabbitmq_broker
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "status"]
+      interval: 5s
+      retries: 10
+      timeout: 5s
+  
+  inventory_api:
+    build:
+      context: ./InventoryService
+      dockerfile: Dockerfile
+    container_name: inventory_api
+    depends_on:
+      rabbitmq:
+        condition: service_healthy   
+      inventory_db:
+        condition: service_started
+      redis:
+        condition: service_started
+      
+    ports:
+      - "5000:8080"
+    networks:
+      - backend
+  
+  order_api:
+    build:
+      context: ./OrderService
+      dockerfile: Dockerfile
+    container_name: order_api
+    depends_on:
+      order_db:
+        condition: service_started
+      rabbitmq:
+        condition: service_healthy
+    ports:
+      - "5001:8080"
+    networks:
+      - backend 
+        
+volumes:
+  inventory_data:
+  order_data:
+
+networks:
+  backend:
+    driver: bridge
+ 
