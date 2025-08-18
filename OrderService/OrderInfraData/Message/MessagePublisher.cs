@@ -1,5 +1,7 @@
 using System.Text;
 using System.Text.Json;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.Extensions.Configuration;
 using OrderInfraData.Message.Interfaces;
 using RabbitMQ.Client;
 
@@ -7,13 +9,17 @@ namespace OrderInfraData.Message;
 
 public class MessagePublisher: IMessagePublisher
 {
-    private const string Host = "localhost";
+    private string ConnectionString { get; set; }
+    public MessagePublisher(IConfiguration configuration)
+    {
+       ConnectionString = configuration.GetConnectionString("RabbitMQ") ?? "amqp://guest:guest@localhost:5672";
+    }
 
     public async Task PublishMessage<T>(T message, string queueName)
     {
         try
         {
-            var factory = new ConnectionFactory(){HostName =  Host};
+            var factory = new ConnectionFactory(){Uri =  new Uri(ConnectionString)};
             await using var connection = await factory.CreateConnectionAsync();
             await using var channel = await connection.CreateChannelAsync();
 

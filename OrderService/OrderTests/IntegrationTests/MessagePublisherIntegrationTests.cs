@@ -1,5 +1,6 @@
 using System.Text;
 using System.Text.Json;
+using Microsoft.Extensions.Configuration;
 using OrderInfraData.Message;
 using RabbitMQ.Client;
 using JsonSerializer = System.Text.Json.JsonSerializer;
@@ -11,13 +12,20 @@ public class MessagePublisherIntegrationTests
 {
     private const string QueueName = "TestQueue";
     private MessagePublisher _messagePublisher;
-    private ConnectionFactory _connectionFactory;
 
     [SetUp]
     public void Setup()
     {
-        _messagePublisher = new MessagePublisher();
-        _connectionFactory = new ConnectionFactory() { HostName = "localhost" };
+        var inMemorySettings = new Dictionary<string, string>
+        {
+            { "ConnectionStrings:RabbitMQ", "amqp://guest:guest@localhost:5672" },
+        };
+
+        IConfiguration configuration = new ConfigurationBuilder()
+            .AddInMemoryCollection(inMemorySettings!)
+            .Build();
+        
+        _messagePublisher = new MessagePublisher(configuration);
     }
 
     [Test]
@@ -27,7 +35,7 @@ public class MessagePublisherIntegrationTests
         
         await _messagePublisher.PublishMessage(message, QueueName);
         
-        var factory = new ConnectionFactory() { HostName = "localhost" };
+        var factory = new ConnectionFactory() { Uri = new Uri("amqp://guest:guest@localhost:5672") };
         await  using var connection = await factory.CreateConnectionAsync();
         await using var channel = await connection.CreateChannelAsync();
         

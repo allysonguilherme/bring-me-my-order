@@ -1,6 +1,7 @@
 using System.Text;
 using System.Text.Json;
 using InventoryInfraData.Message;
+using Microsoft.Extensions.Configuration;
 using RabbitMQ.Client;
 using Xunit.Abstractions;
 
@@ -8,11 +9,21 @@ namespace InventoryUnitTests.IntegrationTests;
 
 public class MessageConsumerIntegrationTests
 {
-    private readonly ITestOutputHelper _testOutputHelper;
-
+    private MessageConsumer _consumer;
     public MessageConsumerIntegrationTests(ITestOutputHelper testOutputHelper)
     {
-        _testOutputHelper = testOutputHelper;
+        
+        var inMemorySettings = new Dictionary<string, string>
+        {
+            { "ConnectionStrings:RabbitMQ", "amqp://guest:guest@localhost:5672" },
+        };
+
+        IConfiguration configuration = new ConfigurationBuilder()
+            .AddInMemoryCollection(inMemorySettings!)
+            .Build(); 
+        
+        
+        _consumer = new MessageConsumer(configuration);
     }
 
     private const string QueueName = "TestQueue";
@@ -21,7 +32,6 @@ public class MessageConsumerIntegrationTests
     [Fact]
     public async Task ConsumerMessageShouldInvokeActionWhenMessageIsReceived()
     {
-        var consumer = new MessageConsumer();
         var receivedEvent = new ManualResetEvent(false);
         TestMessage? receivedMessage = null;
 
@@ -31,9 +41,9 @@ public class MessageConsumerIntegrationTests
             receivedEvent.Set();
             return Task.CompletedTask;
         }
-        _ = consumer.ConsumeMessage<TestMessage>(QueueName, UpdateMessage, CancellationToken.None);
+        _ = _consumer.ConsumeMessage<TestMessage>(QueueName, UpdateMessage, CancellationToken.None);
         
-        var factory = new ConnectionFactory() { HostName = Host };
+        var factory = new ConnectionFactory() { Uri = new Uri("amqp://guest:guest@localhost:5672") };
         await using var connection = await factory.CreateConnectionAsync();
         await using var channel = await connection.CreateChannelAsync();
 

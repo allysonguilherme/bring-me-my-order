@@ -1,6 +1,7 @@
 using System.Text;
 using System.Text.Json;
 using InventoryInfraData.Message.Interfaces;
+using Microsoft.Extensions.Configuration;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
@@ -8,13 +9,18 @@ namespace InventoryInfraData.Message;
 
 public class MessageConsumer: IMessageConsumer
 {
-    private const string Host = "localhost";
+    private string connectionString;
+
+    public MessageConsumer(IConfiguration configuration)
+    {
+        connectionString = configuration.GetConnectionString("RabbitMQ") ?? "amqp://guest:guest@localhost:5672";
+    }
     
     public async Task ConsumeMessage<T>(string queueName, Func<T, Task> function, CancellationToken cancellationToken)
     {
         try
         {
-            var factory = new ConnectionFactory(){HostName =  Host};
+            var factory = new ConnectionFactory(){Uri =  new Uri(connectionString) };
             await using var connection = await factory.CreateConnectionAsync();
             await using var channel = await connection.CreateChannelAsync();
 
