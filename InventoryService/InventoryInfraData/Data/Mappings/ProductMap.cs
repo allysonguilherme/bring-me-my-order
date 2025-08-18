@@ -1,7 +1,7 @@
-using InventoryBusiness.Entities;
 using FluentNHibernate.Mapping;
+using InventoryBusiness.Entities;
 
-namespace InventoryInfraData.Mappings;
+namespace InventoryInfraData.Data.Mappings;
 
 public class ProductMap: ClassMap<Product>
 {

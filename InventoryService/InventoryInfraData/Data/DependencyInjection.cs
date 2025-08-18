@@ -1,6 +1,6 @@
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
-using InventoryInfraData.Mappings;
+using InventoryInfraData.Data.Mappings;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
