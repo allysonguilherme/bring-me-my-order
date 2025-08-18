@@ -1,4 +1,3 @@
-using Asp.Versioning;
 using OrderApplication.DTOs;
 using OrderApplication.Services.Interfaces;
 using OrderInfraIOC;
@@ -22,12 +21,9 @@ var app = builder.Build();
 var order = app.NewVersionedApi();
 var v1 = order.MapGroup("/api/v{version:apiVersion}/order").HasApiVersion(1.0);
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger(); 
+app.UseSwaggerUI();
+
 
 app.UseHttpsRedirection();
 
