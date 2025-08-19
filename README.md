@@ -205,3 +205,10 @@ Este projeto ainda está longe de ser um projeto pronto e completo. Além dos re
 - Cadastro e login de usuários
 - API para atuar como gateway entre os microserviços
 - Gerenciamento de Status dos pedidos com eventos como "OrderRejeted", "OrderConfirmed", etc.
+
+## Autor
+Desenvolvido por Allyson Guilherme
+
+[Linkedin](https://www.linkedin.com/in/allyson-guilherme-gomes/)
+
+[Github](https://github.com/allysonguilherme)
