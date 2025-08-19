@@ -65,6 +65,7 @@ Docker: https://docs.docker.com/engine/install/
 
 Docker Compose: https://docs.docker.com/compose/install/
 
+
 1 – Clone o repositório em sua máquina local:
 
 `git clone https://github.com/allysonguilherme/bring-me-my-order.git'`
@@ -82,3 +83,125 @@ Docker Compose: https://docs.docker.com/compose/install/
 http://localhost:5000/swagger/index.html  - para usar a API de catálogos de produtos.
 
 http://localhost:5001/swagger/index.html – para usar a API de gerenciamento de pedidos.
+
+## Usando a API
+### Endpoints InventoryService
+| Método | Endpoint         | Descrição               |
+|--------|------------------|--------------------------|
+| GET    | `/api/v1/Product`  | Lista todos os produtos  |
+| GET    | `/api/v1/Product/{id}`| Busca produto por ID     |
+| POST   | `/api/v1/Product`  | Cria um novo produto     |
+| PUT   | `/api/v1/Product/{id}/AddStock`  | Adiciona quantidade ao estoque do produto     |
+| PUT   | `/api/v1/Product/{id}/WithdrawStock`  | Faz a retirada do item no estoque    |
+
+### Exemplos:
+
+**Listar Produtos**
+```bash
+curl -X 'GET' \
+  'https://localhost:7213/api/v1/Product' \
+  -H 'accept: */*'
+```
+
+**Resposta:**
+```json
+[
+  {
+    "id": 2,
+    "name": "IPhone",
+    "description": null,
+    "stock": 96,
+    "price": 4
+  },
+  {
+    "id": 5,
+    "name": "Honey Pot",
+    "description": null,
+    "stock": 22,
+    "price": 25
+  },
+  {
+    "id": 6,
+    "name": "Notebook",
+    "description": "Notebook Dell Aspire 5200",
+    "stock": 20,
+    "price": 4000
+  }
+]
+```
+
+**Criar novo produto**
+```bash
+curl -X 'POST' \
+  'https://localhost:7213/api/v1/Product' \
+  -H 'accept: */*' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "name": "HD Solid",
+  "stock": 200,
+  "price": 1500
+}'
+```
+
+**Resposta**
+```json
+{
+  "message": "Product  created successfully!",
+  "id": 10
+}
+```
+
+### Endpoints OrderService
+| Método | Endpoint         | Descrição               |
+|--------|------------------|--------------------------|
+| GET    | `/api/v1/order`  | Lista todos os pedidos  |
+| GET    | `/api/v1/order/{id}`| Busca pedido por ID     |
+| POST   | `/api/v1/order`  | Cria um novo pedido     |
+| DELETE   | `/api/v1/order/{id}`  | Cancela um pedido pelo ID    |
+
+### Exemplos:
+**Obter pedido pelo ID**
+```bash
+curl -X 'GET' \
+  'http://localhost:5049/api/v1/order/7' \
+  -H 'accept: */*'
+```
+
+**Resposta**
+```json
+{
+  "orderNumber": 7,
+  "totalPrice": 12000,
+  "products": [
+    {
+      "productId": 2,
+      "name": "IPhone",
+      "description": null,
+      "price": 6000,
+      "quantity": 2
+    }
+  ]
+}
+```
+
+**Cancelar pedido pelo ID**
+```bash
+curl -X 'DELETE' \
+  'http://localhost:5049/api/v1/order/12' \
+  -H 'accept: */*'
+```
+
+**Respostas**
+```json
+{
+  "message": "Order cancelled successfully",
+  "id": 12
+}
+```
+
+## Considerações Finais
+Este projeto ainda está longe de ser um projeto pronto e completo. Além dos recursos existentes planeja-se implementar os seguintes recursos:
+- Autenticação usando JWT e Autorização basepada em papéis
+- Cadastro e login de usuários
+- API para atuar como gateway entre os microserviços
+- Gerenciamento de Status dos pedidos com eventos como "OrderRejeted", "OrderConfirmed", etc.
