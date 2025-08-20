@@ -1,6 +1,7 @@
 using OrderApplication.DTOs;
 using OrderApplication.Services.Interfaces;
 using OrderInfraIOC;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,10 +18,13 @@ builder.Services.AddApiVersioning()
         options.SubstituteApiVersionInUrl = true;
     });
 
-builder.Logging.ClearProviders();
-builder.Logging.AddConsole();
-builder.Logging.AddDebug();
-builder.Logging.AddEventSourceLogger();
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .WriteTo.File("logs/log-.txt", rollingInterval: RollingInterval.Day)
+    .Enrich.FromLogContext()
+    .CreateLogger();
+
+builder.Host.UseSerilog();
 
 var app = builder.Build();
 var order = app.NewVersionedApi();

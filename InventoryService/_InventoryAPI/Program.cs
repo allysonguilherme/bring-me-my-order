@@ -2,6 +2,7 @@ using Asp.Versioning;
 using Asp.Versioning.ApiExplorer;
 using InventoryInfraData.Message.Consumers;
 using InventoryInfraIOC;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,11 +27,13 @@ Dependencies.ConfigureServices(builder.Configuration, builder.Services);
 builder.Services.AddHostedService<OrderCreatedConsumer>();
 builder.Services.AddHostedService<OrderCancelledConsumer>();
 
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .WriteTo.File("logs/log-.txt", rollingInterval: RollingInterval.Day)
+    .Enrich.FromLogContext()
+    .CreateLogger();
 
-builder.Logging.ClearProviders();
-builder.Logging.AddConsole();
-builder.Logging.AddDebug();
-builder.Logging.AddEventSourceLogger();
+builder.Host.UseSerilog();
 
 var app = builder.Build();
 
