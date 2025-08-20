@@ -16,6 +16,8 @@ Além da comunicação assíncrona entre os microserviços o projeto implementa 
 O TTL para as informações cacheadas é de 5 minutos para fins de demonstração neste projeto.
 Quando um produto é atualizado, seu cache é invalidado forçando a busca por dados consistentes na próxima consulta. O mesmo ocorre com a lista de produtos quando um produto é adicionado.
 
+### Logging
+Para manter a rastreabilidade e auditoria dentro da aplicação aplicou-se a prática de logging usando a biblioteca Serilog. Os logs são expostos através do console e também salvos em arquivos txt na pasta *logs*. 
 
 ### Uma Arquitetura Limpa
 Neste projeto um esforço sincero foi realizado para criar uma arquitetura limpa e organizada. Para tanto baseou-se em princípios do DDD, inversão de dependência e desacoplamento entre as camadas. Os dois microserviços seguiram em geral a mesma estrutura. Por exemplo a aplicação OrderService é composta de 6 projetos:
