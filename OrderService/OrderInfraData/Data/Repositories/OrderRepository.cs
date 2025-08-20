@@ -1,10 +1,11 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using OrderBusiness.Entities;
 using OrderBusiness.Repositories;
 
 namespace OrderInfraData.Repositories;
 
-public class OrderRepository (ApplicationDbContext dbContext)  : IOrderRepository
+public class OrderRepository (ApplicationDbContext dbContext, ILogger<OrderRepository> logger)  : IOrderRepository
 {
     public async Task<List<Order>> GetAllAsync()
     {
@@ -16,7 +17,7 @@ public class OrderRepository (ApplicationDbContext dbContext)  : IOrderRepositor
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            logger.LogError($"Error in obtaining all orders: {e.Message}");
             throw;
         }
     }
@@ -31,7 +32,7 @@ public class OrderRepository (ApplicationDbContext dbContext)  : IOrderRepositor
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            logger.LogError($"Error in obtaining the order n. {id}: {e.Message}");
             throw;
         }
     }
@@ -45,7 +46,7 @@ public class OrderRepository (ApplicationDbContext dbContext)  : IOrderRepositor
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            logger.LogError($"Error in adding new order: {e.Message}");
             throw;
         }
     }
@@ -59,7 +60,7 @@ public class OrderRepository (ApplicationDbContext dbContext)  : IOrderRepositor
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            logger.LogError($"Error in removing order n.{order.Id}: {e.Message}");
             throw;
         }
     }

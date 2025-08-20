@@ -17,6 +17,11 @@ builder.Services.AddApiVersioning()
         options.SubstituteApiVersionInUrl = true;
     });
 
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+builder.Logging.AddDebug();
+builder.Logging.AddEventSourceLogger();
+
 var app = builder.Build();
 var order = app.NewVersionedApi();
 var v1 = order.MapGroup("/api/v{version:apiVersion}/order").HasApiVersion(1.0);
