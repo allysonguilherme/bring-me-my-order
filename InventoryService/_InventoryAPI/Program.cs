@@ -27,6 +27,10 @@ builder.Services.AddHostedService<OrderCreatedConsumer>();
 builder.Services.AddHostedService<OrderCancelledConsumer>();
 
 
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+builder.Logging.AddDebug();
+builder.Logging.AddEventSourceLogger();
 
 var app = builder.Build();
 

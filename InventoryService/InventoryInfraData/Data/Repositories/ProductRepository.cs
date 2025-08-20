@@ -2,12 +2,13 @@ using System.Text.Json;
 using InventoryBusiness.Entities;
 using InventoryBusiness.Repositories;
 using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Logging;
 using NHibernate;
 using NHibernate.Linq;
 
 namespace InventoryInfraData.Data.Repositories;
 
-public class ProductRepository (ISession session, IDistributedCache cache) : IProductRepository
+public class ProductRepository (ISession session, IDistributedCache cache, ILogger<Product> logger) : IProductRepository
 {
     private string GetCacheKey(int id)
     {
@@ -43,7 +44,7 @@ public class ProductRepository (ISession session, IDistributedCache cache) : IPr
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            logger.LogError($"Error obtaining product list: {e.Message}");
             throw;
         }
     }
@@ -57,11 +58,14 @@ public class ProductRepository (ISession session, IDistributedCache cache) : IPr
             await transaction.CommitAsync();
             
             await cache.RemoveAsync(ProductListCacheKey);
+            
+            logger.LogInformation($"Created product {product.Id}");
+            
             return generatedId;
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            logger.LogError($"Error creating product {e.Message}");
             throw;
         }
     }
@@ -96,7 +100,7 @@ public class ProductRepository (ISession session, IDistributedCache cache) : IPr
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            logger.LogError($"Error getting product {id}: {e.Message}");
             throw;
         }
     }
@@ -114,11 +118,12 @@ public class ProductRepository (ISession session, IDistributedCache cache) : IPr
             await cache.RemoveAsync(cacheKey);
             await cache.RemoveAsync(ProductListCacheKey);
             
+            logger.LogInformation($"Updated product {product.Id}");
             return updatedProduct;
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            logger.LogError($"Error updating product {product.Id}: {e.Message}");
             throw;
         }
     }
