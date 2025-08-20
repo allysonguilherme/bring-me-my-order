@@ -8,7 +8,7 @@ using NHibernate.Linq;
 
 namespace InventoryInfraData.Data.Repositories;
 
-public class ProductRepository (ISession session, IDistributedCache cache, ILogger<Product> logger) : IProductRepository
+public class ProductRepository (ISession session, IDistributedCache cache, ILogger<ProductRepository> logger) : IProductRepository
 {
     private string GetCacheKey(int id)
     {
