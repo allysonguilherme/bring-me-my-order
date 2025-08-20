@@ -45,6 +45,7 @@ OrderService:
 - Entity Framework Core (Code First, Migrations)
 - Background services
 - Nunit para testes unitários e de integração
+- Serilog for logging
 
 InventoryService:
 - .Net 8
@@ -53,6 +54,7 @@ InventoryService:
 - Nhibernate para acesso a dados (Database first) 
 - Redis para cache
 - Xunit para testes unitários e de integração
+- Serilog for logging
 
 Banco de dados:
  - PostgreSQL 17 (bancos separados para cada microserviço)
