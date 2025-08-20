@@ -67,7 +67,7 @@ v1.MapDelete("/{id}", async (IOrderFacade orderFacade, int id) =>
             return Results.NotFound();
         }
 
-        return (bool)deleted ? Results.Ok() : Results.UnprocessableEntity();
+        return (bool)deleted ? Results.Ok(new {Message = "Order cancelled successfully", Id = id}) : Results.UnprocessableEntity();
     })
     .WithName("CancelOrder")
     .WithOpenApi();

@@ -49,8 +49,8 @@ public class ProductController(IProductFacade productFacade) : ControllerBase
             createProductDto.Stock,
             createProductDto.Price,
             createProductDto.Description));
-         
-        return createProductResult != null ? Ok("Produto criado com sucesso!") : NoContent();
+        
+        return createProductResult != null ? Ok(new { Message = "Product  created successfully!", Id = createProductResult }) : NoContent();
     }
 
     [HttpPut("{id}/AddStock", Name = "AddStock")]
@@ -67,7 +67,7 @@ public class ProductController(IProductFacade productFacade) : ControllerBase
 
         if (product is null)
         {
-            return NotFound("Product not found");
+            return NotFound(new {Error = "Product not found"});
         }
         
         var (success, message) = await productFacade.AddProductStock(product, updateProductStockDto.Quantity);
